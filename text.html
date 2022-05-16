@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+
+      body {
+        background: white;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Noto Sans KR", sans-serif;
+      }
+
+      .whats-this {
+        width: 100%;
+        height: 100vh;
+        padding: 10px;
+      }
+
+      .container {
+        height: 4000px;
+      }
+
+      .animate {
+        position: sticky;
+        top: 45vh;
+        opacity: 0;
+        font-size: 40px;
+        width: 100%;
+        height: 90px;
+        text-align: center;
+      }
+
+      .animate a {
+        color: #2291ff;
+        text-decoration: none;
+      }
+
+      .animate a:hover {
+        text-decoration: underline;
+      }
+
+      .trigger {
+        width: 100%;
+        height: 10px;
+        margin-bottom: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="whats-this">
+      <h1>Apple Text Animation</h1>
+      <p>Scroll Down</p>
+    </div>
+
+    <div class="container">
+      <h1 class="animate animate_1">안녕하세요?</h1>
+      <div class="trigger trigger_1"></div>
+      <h1 class="animate animate_2">만나서 반갑습니다!</h1>
+      <div class="trigger trigger_2"></div>
+      <h1 class="animate animate_3">신기하다고요?</h1>
+      <div class="trigger trigger_3"></div>
+      <h1 class="animate animate_4">
+        <a href="https://blog.studia.blue/web/apple-text-animation/">여기</a
+        >에서 만드는 법을<br />확인하세요.
+      </h1>
+      <div class="trigger trigger_4"></div>
+    </div>
+    <script>
+      var controller = new ScrollMagic.Controller();
+      var animateElem = [
+        ".animate_1",
+        ".animate_2",
+        ".animate_3",
+        ".animate_4",
+      ];
+      var triggerElem = [
+        ".trigger_1",
+        ".trigger_2",
+        ".trigger_3",
+        ".trigger_4",
+      ];
+
+      for (var i = 0; i < animateElem.length; i++) {
+        var currentAnimateElem = animateElem[i];
+        var currentTriggerElem = triggerElem[i];
+
+        var timeline = new TimelineMax();
+
+        var tween_move = TweenMax.fromTo(
+          currentAnimateElem,
+          1,
+          {
+            ease: SlowMo.ease.config(0.7, 0.7, false),
+            y: 50,
+          },
+          {
+            ease: SlowMo.ease.config(0.7, 0.7, false),
+            y: -50,
+          }
+        );
+
+        var tween_opacity = new TimelineMax();
+        tween_opacity
+          .to(currentAnimateElem, 0.3, {
+            ease: Linear.easeNone,
+            opacity: 1,
+          })
+          .to(
+            currentAnimateElem,
+            0.3,
+            {
+              ease: Linear.easeNone,
+              opacity: 0,
+            },
+            "+=0.4"
+          );
+
+        timeline.add(tween_move, 0).add(tween_opacity, 0);
+
+        var scene_main = new ScrollMagic.Scene({
+          triggerElement: currentTriggerElem,
+          duration: "900px",
+        })
+          .setTween(timeline)
+          .addTo(controller);
+      }
+    </script>
+  </body>
+</html>
